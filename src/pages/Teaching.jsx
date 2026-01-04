@@ -2,111 +2,98 @@ import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { motion } from 'framer-motion';
-import { GraduationCap, BookOpen, Calendar, MapPin } from 'lucide-react';
+import { GraduationCap, Calendar, Building } from 'lucide-react';
 
 export default function Teaching() {
-  const { data: courses = [] } = useQuery({
+  const { data: courses = [], isLoading } = useQuery({
     queryKey: ['courses'],
     queryFn: () => base44.entities.Course.list()
   });
 
-  const groupedCourses = courses.reduce((acc, course) => {
-    const level = course.level || 'other';
-    if (!acc[level]) acc[level] = [];
-    acc[level].push(course);
-    return acc;
-  }, {});
-
-  const levelLabels = {
-    phd: 'PhD Courses',
-    mba: 'MBA Courses',
-    masters: 'Masters Courses',
-    undergraduate: 'Undergraduate Courses',
-    other: 'Other Courses'
-  };
-
-  const levelOrder = ['phd', 'mba', 'masters', 'undergraduate', 'other'];
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center min-h-[50vh]">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
 
   return (
-    <div className="max-w-7xl mx-auto px-6 md:px-12 py-12">
-      <div className="mb-16 border-b border-gray-100 dark:border-gray-800 pb-8">
-        <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-          Teaching
-        </h1>
-        <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl leading-relaxed">
-          Overview of courses taught across PhD, MBA, and Undergraduate programs.
-        </p>
-      </div>
+    <div className="bg-white dark:bg-gray-900 min-h-screen">
+      <section className="pt-32 pb-24">
+        <div className="max-w-7xl mx-auto px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="text-center mb-16"
+          >
+            {/* The "Gold Underline" styling */}
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white inline-block border-b-4 border-yellow-500 pb-2 mb-4">
+              Teaching
+            </h1>
+            <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mt-6 text-lg">
+              I teach courses in optimization, operations management, and decision sciences
+              at both undergraduate and graduate levels.
+            </p>
+          </motion.div>
 
-      {levelOrder.map((level) => {
-        const levelCourses = groupedCourses[level];
-        if (!levelCourses) return null;
-
-        return (
-          <section key={level} className="mb-16">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8 flex items-center gap-3">
-              <span className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg text-blue-600 dark:text-blue-400">
-                <GraduationCap className="w-6 h-6" />
-              </span>
-              {levelLabels[level]}
-            </h2>
-            
-            <div className="grid md:grid-cols-2 gap-6">
-              {levelCourses.map((course, index) => (
+          <div className="max-w-4xl mx-auto">
+            <div className="space-y-6">
+              {courses.map((course, idx) => (
                 <motion.div
                   key={course.id}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: index * 0.1 }}
-                  className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-md transition-shadow flex flex-col h-full"
+                  transition={{ duration: 0.5, delay: idx * 0.1 }}
+                  // "card-elevated" equivalent styling
+                  className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700 hover:shadow-xl transition-shadow"
                 >
-                  <div className="flex justify-between items-start mb-4">
-                    <div className="p-3 bg-gray-50 dark:bg-gray-700 rounded-xl">
-                      <BookOpen className="w-6 h-6 text-gray-700 dark:text-gray-300" />
-                    </div>
-                    {course.code && (
-                      <span className="px-3 py-1 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 text-sm font-semibold rounded-full">
-                        {course.code}
-                      </span>
-                    )}
-                  </div>
-
-                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 leading-tight">
-                    {course.name}
-                  </h3>
-
-                  <div className="space-y-3 mb-6">
-                    <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-                      <MapPin className="w-4 h-4 shrink-0" />
-                      <span>{course.institution}</span>
-                    </div>
-                    {course.semesters && (
-                      <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-                        <Calendar className="w-4 h-4 shrink-0" />
-                        <span>{course.semesters}</span>
+                  <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3 mb-3">
+                        <div className="w-10 h-10 rounded-lg bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center">
+                          <GraduationCap className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                        </div>
+                        <div>
+                          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                            {course.name || course.course}
+                          </h3>
+                          <p className="text-sm text-blue-600 dark:text-blue-400 font-medium">
+                            {course.code}
+                          </p>
+                        </div>
                       </div>
-                    )}
-                  </div>
-                  
-                  {course.description && (
-                    <div className="mt-auto pt-4 border-t border-gray-100 dark:border-gray-700">
-                      <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
-                        {course.description}
-                      </p>
+
+                      <div className="flex flex-wrap items-center gap-4 mt-4 text-sm text-gray-500 dark:text-gray-400">
+                        <div className="flex items-center gap-2">
+                          <Building className="h-4 w-4" />
+                          {course.institution}
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Calendar className="h-4 w-4" />
+                          {course.semesters || course.years}
+                        </div>
+                      </div>
                     </div>
-                  )}
+
+                    {/* Badge Component Equivalent */}
+                    <span className="self-start px-2.5 py-0.5 rounded-full text-xs font-semibold bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300">
+                      {course.level}
+                    </span>
+                  </div>
                 </motion.div>
               ))}
             </div>
-          </section>
-        );
-      })}
-
-      {courses.length === 0 && (
-        <div className="text-center py-20 bg-gray-50 dark:bg-gray-800/50 rounded-3xl border border-dashed border-gray-200 dark:border-gray-700">
-          <p className="text-gray-500 dark:text-gray-400">No courses available.</p>
+            
+            {courses.length === 0 && (
+              <div className="text-center py-12 text-gray-500">
+                No courses added yet.
+              </div>
+            )}
+          </div>
         </div>
-      )}
+      </section>
     </div>
   );
 }
