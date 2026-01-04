@@ -1,5 +1,6 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+// CRITICAL FIX: Changed BrowserRouter to HashRouter
+import { HashRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Layout from './Layout';
 import Home from './pages/Home';
@@ -12,6 +13,7 @@ import CMS from './pages/CMS';
 
 const queryClient = new QueryClient();
 
+// This wrapper component handles the page title/layout props
 function AppContent() {
   const location = useLocation();
   

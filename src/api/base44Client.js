@@ -60,5 +60,31 @@ export const base44 = {
     Course: createEntityAPI('Course'),
     Student: createEntityAPI('Student'),
     ResearchArea: createEntityAPI('ResearchArea')
+  },
+  integrations: {
+    Core: {
+      UploadFile: async ({ file }) => {
+        const formData = new FormData();
+        formData.append('file', file);
+        
+        // FIX: Changed endpoint from /integrations/core/upload to /upload
+        // This attempts to hit the root upload endpoint which is more standard
+        const response = await fetch(`${API_URL}/upload`, {
+          method: 'POST',
+          headers: {
+            'api_key': API_KEY,
+            // Content-Type must be undefined to let browser set multipart/form-data boundary
+          },
+          body: formData
+        });
+        
+        if (!response.ok) {
+           const errorText = await response.text();
+           console.error("Upload Error Details:", errorText);
+           throw new Error(`Upload failed with status ${response.status}`);
+        }
+        return response.json();
+      }
+    }
   }
 };
