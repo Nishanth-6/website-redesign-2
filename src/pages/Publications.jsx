@@ -21,10 +21,20 @@ export default function Publications() {
     'Conference Proceedings'
   ];
 
-  // Filter logic
+  // Map display names to actual data values
+  const categoryToDataValues = {
+    'Journal Publications': ['journal'],
+    'Working Papers': ['working_paper'],
+    'Conference Proceedings': ['conference', 'conference_proceeding']
+  };
+
+  // Filter logic - uses mapping to match data values
   const filteredPublications = activeCategory === 'All Publications'
     ? publications
-    : publications.filter(p => p.category === activeCategory || p.type === activeCategory);
+    : publications.filter(p => {
+      const dataValues = categoryToDataValues[activeCategory] || [];
+      return dataValues.includes(p.category) || dataValues.includes(p.type);
+    });
 
   // Sort by year (descending)
   const sortedPublications = [...filteredPublications].sort((a, b) => b.year - a.year);
@@ -62,8 +72,8 @@ export default function Publications() {
               key={category}
               onClick={() => setActiveCategory(category)}
               className={`shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-all whitespace-nowrap ${activeCategory === category
-                  ? 'bg-blue-600 text-white shadow-md shadow-blue-500/20'
-                  : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'
+                ? 'bg-blue-600 text-white shadow-md shadow-blue-500/20'
+                : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'
                 }`}
             >
               {category}
