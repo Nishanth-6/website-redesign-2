@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 // CRITICAL FIX: Changed BrowserRouter to HashRouter
 import { HashRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -13,10 +13,21 @@ import CMS from './pages/CMS';
 
 const queryClient = new QueryClient();
 
+// Scroll to top on route change
+function ScrollToTopOnNav() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
+
 // This wrapper component handles the page title/layout props
 function AppContent() {
   const location = useLocation();
-  
+
   const getCurrentPageName = () => {
     const path = location.pathname.toLowerCase().slice(1);
     if (!path || path === 'home') return 'Home';
@@ -24,18 +35,21 @@ function AppContent() {
   };
 
   return (
-    <Layout currentPageName={getCurrentPageName()}>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/research" element={<Research />} />
-        <Route path="/publications" element={<Publications />} />
-        <Route path="/teaching" element={<Teaching />} />
-        <Route path="/students" element={<Students />} />
-        <Route path="/cv" element={<CV />} />
-        <Route path="/cms" element={<CMS />} />
-      </Routes>
-    </Layout>
+    <>
+      <ScrollToTopOnNav />
+      <Layout currentPageName={getCurrentPageName()}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/research" element={<Research />} />
+          <Route path="/publications" element={<Publications />} />
+          <Route path="/teaching" element={<Teaching />} />
+          <Route path="/students" element={<Students />} />
+          <Route path="/cv" element={<CV />} />
+          <Route path="/cms" element={<CMS />} />
+        </Routes>
+      </Layout>
+    </>
   );
 }
 

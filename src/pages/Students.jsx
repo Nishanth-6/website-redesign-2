@@ -27,7 +27,7 @@ export default function Students() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay: index * 0.05 }}
-      className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700"
+      className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-100 dark:border-gray-700 hover:shadow-xl transition-all duration-300"
     >
       <div className="flex items-start justify-between mb-3">
         <div className="flex-1">
@@ -52,7 +52,7 @@ export default function Students() {
             </p>
           )}
         </div>
-        
+
         {student.status === 'current' && student.start_year && (
           <span className="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400 text-xs rounded-full">
             Started {student.start_year}
@@ -66,37 +66,37 @@ export default function Students() {
             <span className="font-medium">Background:</span> {student.background}
           </p>
         )}
-        
+
         {student.research_interests && (
           <p className="text-gray-700 dark:text-gray-300">
             <span className="font-medium">Research Interests:</span> {student.research_interests}
           </p>
         )}
-        
+
         {student.thesis_title && (
           <p className="text-gray-700 dark:text-gray-300">
             <span className="font-medium">Thesis:</span> {student.thesis_title}
           </p>
         )}
-        
+
         {student.co_supervisors && (
           <p className="text-gray-700 dark:text-gray-300">
             <span className="font-medium">Co-supervisors:</span> {student.co_supervisors}
           </p>
         )}
-        
+
         {student.graduation_year && (
           <p className="text-gray-700 dark:text-gray-300">
             <span className="font-medium">Graduated:</span> {student.graduation_year}
           </p>
         )}
-        
+
         {student.first_position && (
           <p className="text-gray-700 dark:text-gray-300">
             <span className="font-medium">First Position:</span> {student.first_position}
           </p>
         )}
-        
+
         {student.current_position && (
           <p className="text-gray-700 dark:text-gray-300">
             <span className="font-medium">Current Position:</span> {student.current_position}
@@ -109,7 +109,7 @@ export default function Students() {
   return (
     <div className="max-w-7xl mx-auto px-6 md:px-12 py-12">
       <div className="mb-12">
-        <h1 className="text-4xl md:text-5xl font-light text-gray-900 dark:text-white mb-4">
+        <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
           Students
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400">

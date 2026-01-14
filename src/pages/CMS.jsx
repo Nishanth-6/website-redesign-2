@@ -87,10 +87,11 @@ export default function CMS() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <div className="max-w-7xl mx-auto px-6 md:px-12 py-12">
-        <div className="flex justify-between items-center mb-12">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-10">
           <div>
-            <h1 className="text-4xl font-light text-gray-900 dark:text-white mb-2">
-              Content Management System
+            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2">
+              Content Management
             </h1>
             <p className="text-gray-600 dark:text-gray-400">
               Manage your academic website content
@@ -105,13 +106,15 @@ export default function CMS() {
         </div>
 
         <Tabs value={activeTab} onValueChange={handleTabChange} className="space-y-8">
-          <TabsList className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-            <TabsTrigger value="content">Content</TabsTrigger>
-            <TabsTrigger value="research">Research Areas</TabsTrigger>
-            <TabsTrigger value="publications">Publications</TabsTrigger>
-            <TabsTrigger value="teaching">Teaching</TabsTrigger>
-            <TabsTrigger value="students">Students</TabsTrigger>
-          </TabsList>
+          <div className="overflow-x-auto scrollbar-hide -mx-6 px-6 md:mx-0 md:px-0">
+            <TabsList className="inline-flex w-max md:w-auto">
+              <TabsTrigger value="content">Content</TabsTrigger>
+              <TabsTrigger value="research">Research Areas</TabsTrigger>
+              <TabsTrigger value="publications">Publications</TabsTrigger>
+              <TabsTrigger value="teaching">Teaching</TabsTrigger>
+              <TabsTrigger value="students">Students</TabsTrigger>
+            </TabsList>
+          </div>
 
           {/* Content Tab */}
           <TabsContent value="content" className="space-y-6">

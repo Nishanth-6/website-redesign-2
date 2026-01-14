@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { FileText, Calendar, Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { SkeletonPublication } from '../components/SkeletonLoader';
 
 export default function Publications() {
   const { data: publications = [], isLoading } = useQuery({
@@ -16,7 +17,7 @@ export default function Publications() {
   const categories = [
     'All Publications',
     'Journal Publications',
-    'Working Papers', 
+    'Working Papers',
     'Conference Proceedings'
   ];
 
@@ -30,8 +31,16 @@ export default function Publications() {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center min-h-[50vh]">
-        <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
+      <div className="max-w-5xl mx-auto px-6 md:px-12 py-12">
+        <div className="mb-10">
+          <div className="skeleton h-9 w-48 rounded mb-4" />
+          <div className="skeleton h-6 w-96 max-w-full rounded" />
+        </div>
+        <div className="space-y-6">
+          <SkeletonPublication />
+          <SkeletonPublication />
+          <SkeletonPublication />
+        </div>
       </div>
     );
   }
@@ -45,27 +54,22 @@ export default function Publications() {
         </p>
       </div>
 
-      {/* 2. CATEGORY TABS (Matching the image style) */}
-      <div className="flex flex-wrap gap-8 border-b border-gray-200 dark:border-gray-700 mb-10">
-        {categories.map(category => (
-          <button
-            key={category}
-            onClick={() => setActiveCategory(category)}
-            className={`pb-3 text-base font-medium transition-all relative ${
-              activeCategory === category
-                ? 'text-blue-600 dark:text-blue-400'
-                : 'text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
-            }`}
-          >
-            {category}
-            {activeCategory === category && (
-              <motion.div 
-                layoutId="activeTab"
-                className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-600 dark:bg-blue-400" 
-              />
-            )}
-          </button>
-        ))}
+      {/* 2. CATEGORY TABS - Now horizontally scrollable on mobile */}
+      <div className="relative mb-10">
+        <div className="flex gap-2 md:gap-4 overflow-x-auto scrollbar-hide pb-2 -mx-6 px-6 md:mx-0 md:px-0">
+          {categories.map(category => (
+            <button
+              key={category}
+              onClick={() => setActiveCategory(category)}
+              className={`shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-all whitespace-nowrap ${activeCategory === category
+                  ? 'bg-blue-600 text-white shadow-md shadow-blue-500/20'
+                  : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'
+                }`}
+            >
+              {category}
+            </button>
+          ))}
+        </div>
       </div>
 
       <div className="space-y-6">
@@ -103,7 +107,7 @@ export default function Publications() {
                   <h3 className="text-xl font-bold text-gray-900 dark:text-white leading-tight">
                     {pub.title}
                   </h3>
-                  
+
                   {pub.abstract && (
                     <p className="text-gray-600 dark:text-gray-400 leading-relaxed text-sm md:text-base">
                       {pub.abstract}
