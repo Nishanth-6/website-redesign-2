@@ -1,9 +1,15 @@
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
-import { FileText, Calendar, Loader2 } from 'lucide-react';
+import { FileText, Calendar } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SkeletonPublication } from '../components/SkeletonLoader';
+
+const fadeUp = {
+  initial: { opacity: 0, y: 16 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.3 }
+};
 
 export default function Publications() {
   const { data: publications = [], isLoading } = useQuery({
@@ -13,7 +19,6 @@ export default function Publications() {
 
   const [activeCategory, setActiveCategory] = useState('All Publications');
 
-  // Define your exact categories here
   const categories = [
     'All Publications',
     'Journal Publications',
@@ -21,14 +26,12 @@ export default function Publications() {
     'Conference Proceedings'
   ];
 
-  // Map display names to actual data values
   const categoryToDataValues = {
     'Journal Publications': ['journal'],
     'Working Papers': ['working_paper'],
     'Conference Proceedings': ['conference', 'conference_proceeding']
   };
 
-  // Filter logic - uses mapping to match data values
   const filteredPublications = activeCategory === 'All Publications'
     ? publications
     : publications.filter(p => {
@@ -36,17 +39,16 @@ export default function Publications() {
       return dataValues.includes(p.category) || dataValues.includes(p.type);
     });
 
-  // Sort by year (descending)
   const sortedPublications = [...filteredPublications].sort((a, b) => b.year - a.year);
 
   if (isLoading) {
     return (
-      <div className="max-w-5xl mx-auto px-6 md:px-12 py-12">
+      <div className="max-w-4xl mx-auto px-6 md:px-10 py-10 md:py-16">
         <div className="mb-10">
           <div className="skeleton h-9 w-48 rounded mb-4" />
           <div className="skeleton h-6 w-96 max-w-full rounded" />
         </div>
-        <div className="space-y-6">
+        <div className="space-y-5">
           <SkeletonPublication />
           <SkeletonPublication />
           <SkeletonPublication />
@@ -56,33 +58,52 @@ export default function Publications() {
   }
 
   return (
-    <div className="max-w-5xl mx-auto px-6 md:px-12 py-12">
-      <div className="mb-10">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Publications</h1>
-        <p className="text-lg text-gray-600 dark:text-gray-400 max-w-3xl leading-relaxed">
+    <div className="max-w-4xl mx-auto px-6 md:px-10 py-10 md:py-16">
+      {/* Page Header */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="mb-10"
+      >
+        <h1 className="heading-serif heading-underline text-3xl md:text-4xl" style={{ color: 'var(--color-text)' }}>
+          Publications
+        </h1>
+        <p className="text-base mt-4 max-w-2xl leading-relaxed"
+          style={{ color: 'var(--color-text-secondary)' }}>
           Selected research papers, articles, and conference proceedings.
         </p>
-      </div>
+      </motion.div>
 
-      {/* 2. CATEGORY TABS - Now horizontally scrollable on mobile */}
+      {/* Filter Tabs — underline style */}
       <div className="relative mb-10">
-        <div className="flex gap-2 md:gap-4 overflow-x-auto scrollbar-hide pb-2 -mx-6 px-6 md:mx-0 md:px-0">
+        <div className="flex gap-1 md:gap-0 overflow-x-auto scrollbar-hide pb-px -mx-6 px-6 md:mx-0 md:px-0"
+          style={{ borderBottom: '1px solid var(--color-border-subtle)' }}>
           {categories.map(category => (
             <button
               key={category}
               onClick={() => setActiveCategory(category)}
-              className={`shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-all whitespace-nowrap ${activeCategory === category
-                ? 'bg-blue-600 text-white shadow-md shadow-blue-500/20'
-                : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'
-                }`}
+              className="relative shrink-0 px-4 py-3 text-sm font-medium transition-colors whitespace-nowrap"
+              style={{
+                color: activeCategory === category ? 'var(--color-accent)' : 'var(--color-text-muted)',
+              }}
             >
               {category}
+              {activeCategory === category && (
+                <motion.div
+                  layoutId="pub-tab-indicator"
+                  className="absolute bottom-0 left-2 right-2 h-[2px] rounded-full"
+                  style={{ backgroundColor: 'var(--color-accent)' }}
+                  transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+                />
+              )}
             </button>
           ))}
         </div>
       </div>
 
-      <div className="space-y-6">
+      {/* Publication Cards */}
+      <div className="space-y-4">
         <AnimatePresence mode="popLayout">
           {sortedPublications.map((pub) => (
             <motion.div
@@ -92,41 +113,58 @@ export default function Publications() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.2 }}
-              className="group bg-white dark:bg-gray-800 p-6 md:p-8 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-md transition-all"
+              className="group p-5 md:p-6 rounded-xl transition-all duration-300"
+              style={{
+                backgroundColor: 'var(--color-surface)',
+                borderLeft: '3px solid var(--color-accent)',
+                boxShadow: 'var(--shadow-sm)'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.boxShadow = 'var(--shadow-md)'}
+              onMouseLeave={(e) => e.currentTarget.style.boxShadow = 'var(--shadow-sm)'}
             >
-              <div className="flex flex-col md:flex-row gap-6 items-start">
-                <div className="flex-1 space-y-3">
-                  <div className="flex items-center gap-3 text-sm text-gray-500 dark:text-gray-400">
-                    <span className="flex items-center gap-1 bg-gray-100 dark:bg-gray-700 px-2.5 py-1 rounded-md text-xs font-medium text-gray-700 dark:text-gray-300">
+              <div className="flex flex-col md:flex-row gap-4 items-start">
+                <div className="flex-1 space-y-2.5">
+                  {/* Meta row */}
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-semibold"
+                      style={{ backgroundColor: 'var(--color-bg-alt)', color: 'var(--color-text-secondary)' }}>
                       <Calendar className="w-3 h-3" />
                       {pub.year}
                     </span>
-                    {/* Show Category Tag if available */}
                     {(pub.category || pub.type) && (
-                      <span className="text-xs font-medium text-blue-600 dark:text-blue-400 border border-blue-100 dark:border-blue-900 px-2 py-0.5 rounded-full">
+                      <span className="text-xs font-medium px-2 py-0.5 rounded-full"
+                        style={{
+                          backgroundColor: 'var(--color-accent-light)',
+                          color: 'var(--color-accent)'
+                        }}>
                         {pub.category || pub.type}
                       </span>
                     )}
                     {pub.venue && (
-                      <span className="font-medium text-gray-700 dark:text-gray-300">
+                      <span className="text-xs font-medium" style={{ color: 'var(--color-text-muted)' }}>
                         {pub.venue}
                       </span>
                     )}
                   </div>
 
-                  <h3 className="text-xl font-bold text-gray-900 dark:text-white leading-tight">
+                  {/* Title */}
+                  <h3 className="text-base md:text-lg font-semibold leading-snug"
+                    style={{ color: 'var(--color-text)' }}>
                     {pub.title}
                   </h3>
 
+                  {/* Abstract */}
                   {pub.abstract && (
-                    <p className="text-gray-600 dark:text-gray-400 leading-relaxed text-sm md:text-base">
+                    <p className="text-sm leading-relaxed"
+                      style={{ color: 'var(--color-text-secondary)' }}>
                       {pub.abstract}
                     </p>
                   )}
 
+                  {/* Authors */}
                   {pub.authors && (
-                    <p className="text-sm text-gray-500 dark:text-gray-500 italic">
-                      Authors: {pub.authors}
+                    <p className="text-sm italic" style={{ color: 'var(--color-text-muted)' }}>
+                      {pub.authors}
                     </p>
                   )}
                 </div>
@@ -136,7 +174,19 @@ export default function Publications() {
                     href={pub.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="shrink-0 flex items-center gap-2 px-5 py-2.5 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 rounded-xl hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-colors font-medium text-sm mt-2 md:mt-0"
+                    className="shrink-0 flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200"
+                    style={{
+                      backgroundColor: 'var(--color-accent-light)',
+                      color: 'var(--color-accent)'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.target.style.backgroundColor = 'var(--color-accent)';
+                      e.target.style.color = 'white';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.backgroundColor = 'var(--color-accent-light)';
+                      e.target.style.color = 'var(--color-accent)';
+                    }}
                   >
                     <FileText className="w-4 h-4" />
                     Read Paper
@@ -148,8 +198,11 @@ export default function Publications() {
         </AnimatePresence>
 
         {sortedPublications.length === 0 && (
-          <div className="text-center py-20 bg-gray-50 dark:bg-gray-800/50 rounded-3xl border border-dashed border-gray-200 dark:border-gray-700">
-            <p className="text-gray-500 dark:text-gray-400">No publications found in "{activeCategory}".</p>
+          <div className="text-center py-16 rounded-xl"
+            style={{ backgroundColor: 'var(--color-bg-alt)', border: '2px dashed var(--color-border)' }}>
+            <p style={{ color: 'var(--color-text-muted)' }}>
+              No publications found in "{activeCategory}".
+            </p>
           </div>
         )}
       </div>

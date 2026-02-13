@@ -4,6 +4,16 @@ import { base44 } from '@/api/base44Client';
 import { motion } from 'framer-motion';
 import { Users, ExternalLink, GraduationCap } from 'lucide-react';
 
+const fadeUp = {
+  initial: { opacity: 0, y: 24 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] }
+};
+
+const stagger = {
+  animate: { transition: { staggerChildren: 0.06 } }
+};
+
 export default function Students() {
   const { data: students = [] } = useQuery({
     queryKey: ['students'],
@@ -24,178 +34,204 @@ export default function Students() {
 
   const StudentCard = ({ student, index }) => (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, delay: index * 0.05 }}
-      className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-100 dark:border-gray-700 hover:shadow-xl transition-all duration-300"
+      variants={fadeUp}
+      className="card-elevated p-5 md:p-6"
     >
       <div className="flex items-start justify-between mb-3">
         <div className="flex-1">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+          <h3 className="text-base font-semibold" style={{ color: 'var(--color-text)' }}>
             {student.website_url ? (
               <a
                 href={student.website_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-blue-600 dark:hover:text-blue-400 inline-flex items-center gap-2"
+                className="inline-flex items-center gap-1.5 transition-colors hover:underline underline-offset-4"
+                style={{ color: 'var(--color-text)' }}
+                onMouseEnter={(e) => e.currentTarget.style.color = 'var(--color-accent)'}
+                onMouseLeave={(e) => e.currentTarget.style.color = 'var(--color-text)'}
               >
                 {student.name}
-                <ExternalLink className="w-4 h-4" />
+                <ExternalLink className="w-3.5 h-3.5" style={{ color: 'var(--color-text-muted)' }} />
               </a>
             ) : (
               student.name
             )}
           </h3>
           {student.program && (
-            <p className="text-sm text-gray-600 dark:text-gray-400">
+            <p className="text-sm mt-0.5" style={{ color: 'var(--color-text-muted)' }}>
               {student.program}, {student.institution}
             </p>
           )}
         </div>
 
         {student.status === 'current' && student.start_year && (
-          <span className="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400 text-xs rounded-full">
-            Started {student.start_year}
+          <span className="px-2.5 py-1 text-xs font-medium rounded-full shrink-0"
+            style={{
+              backgroundColor: 'rgba(34, 197, 94, 0.1)',
+              color: 'rgb(34, 158, 84)'
+            }}>
+            Since {student.start_year}
           </span>
         )}
       </div>
 
-      <div className="space-y-2 text-sm">
+      <div className="space-y-1.5 text-sm" style={{ color: 'var(--color-text-secondary)' }}>
         {student.background && (
-          <p className="text-gray-700 dark:text-gray-300">
-            <span className="font-medium">Background:</span> {student.background}
-          </p>
+          <p><span className="font-medium" style={{ color: 'var(--color-text)' }}>Background:</span> {student.background}</p>
         )}
-
         {student.research_interests && (
-          <p className="text-gray-700 dark:text-gray-300">
-            <span className="font-medium">Research Interests:</span> {student.research_interests}
-          </p>
+          <p><span className="font-medium" style={{ color: 'var(--color-text)' }}>Research:</span> {student.research_interests}</p>
         )}
-
         {student.thesis_title && (
-          <p className="text-gray-700 dark:text-gray-300">
-            <span className="font-medium">Thesis:</span> {student.thesis_title}
-          </p>
+          <p><span className="font-medium" style={{ color: 'var(--color-text)' }}>Thesis:</span> {student.thesis_title}</p>
         )}
-
         {student.co_supervisors && (
-          <p className="text-gray-700 dark:text-gray-300">
-            <span className="font-medium">Co-supervisors:</span> {student.co_supervisors}
-          </p>
+          <p><span className="font-medium" style={{ color: 'var(--color-text)' }}>Co-supervisors:</span> {student.co_supervisors}</p>
         )}
-
         {student.graduation_year && (
-          <p className="text-gray-700 dark:text-gray-300">
-            <span className="font-medium">Graduated:</span> {student.graduation_year}
-          </p>
+          <p><span className="font-medium" style={{ color: 'var(--color-text)' }}>Graduated:</span> {student.graduation_year}</p>
         )}
-
         {student.first_position && (
-          <p className="text-gray-700 dark:text-gray-300">
-            <span className="font-medium">First Position:</span> {student.first_position}
-          </p>
+          <p><span className="font-medium" style={{ color: 'var(--color-text)' }}>First Position:</span> {student.first_position}</p>
         )}
-
         {student.current_position && (
-          <p className="text-gray-700 dark:text-gray-300">
-            <span className="font-medium">Current Position:</span> {student.current_position}
-          </p>
+          <p><span className="font-medium" style={{ color: 'var(--color-text)' }}>Current Position:</span> {student.current_position}</p>
         )}
       </div>
     </motion.div>
   );
 
+  const SectionHeader = ({ icon: Icon, title, iconColor }) => (
+    <motion.h2
+      variants={fadeUp}
+      className="text-xl md:text-2xl font-semibold mb-6 flex items-center gap-3"
+      style={{ fontFamily: 'var(--font-serif)', color: 'var(--color-text)' }}
+    >
+      <div className="w-8 h-8 rounded-lg flex items-center justify-center"
+        style={{ backgroundColor: iconColor === 'accent' ? 'var(--color-accent-light)' : 'var(--color-bg-alt)' }}>
+        <Icon className="w-4 h-4" style={{ color: iconColor === 'accent' ? 'var(--color-accent)' : 'var(--color-text-muted)' }} />
+      </div>
+      {title}
+    </motion.h2>
+  );
+
   return (
-    <div className="max-w-7xl mx-auto px-6 md:px-12 py-12">
-      <div className="mb-12">
-        <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+    <div className="max-w-6xl mx-auto px-6 md:px-10 py-10 md:py-16">
+      {/* Page Header */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="mb-12"
+      >
+        <h1 className="heading-serif heading-underline text-4xl md:text-5xl" style={{ color: 'var(--color-text)' }}>
           Students
         </h1>
-        <p className="text-lg text-gray-600 dark:text-gray-400">
+        <p className="text-base mt-4" style={{ color: 'var(--color-text-secondary)' }}>
           Current and former graduate students
         </p>
-      </div>
+      </motion.div>
 
       {/* Note to Students */}
       {noteToStudents && (
-        <section className="mb-12">
-          <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl p-6 md:p-8">
-            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="mb-12"
+        >
+          <div className="p-6 md:p-8 rounded-xl"
+            style={{
+              backgroundColor: 'var(--color-accent-light)',
+              borderLeft: '3px solid var(--color-accent)'
+            }}>
+            <h2 className="text-xl font-semibold mb-3"
+              style={{ fontFamily: 'var(--font-serif)', color: 'var(--color-text)' }}>
               {noteToStudents.title || 'Note to Prospective Students'}
             </h2>
-            <div className="prose prose-lg dark:prose-invert max-w-none">
-              <p className="text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-line">
-                {noteToStudents.body}
-              </p>
-            </div>
+            <p className="leading-relaxed whitespace-pre-line"
+              style={{ color: 'var(--color-text-secondary)' }}>
+              {noteToStudents.body}
+            </p>
           </div>
-        </section>
+        </motion.section>
       )}
 
-      {/* Current PhD Students */}
+      {/* Current PhD */}
       {currentPhD.length > 0 && (
-        <section className="mb-12">
-          <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6 flex items-center gap-3">
-            <GraduationCap className="w-6 h-6 text-blue-600 dark:text-blue-400" />
-            Current PhD Students
-          </h2>
-          <div className="grid md:grid-cols-2 gap-6">
+        <motion.section
+          className="mb-12"
+          initial="initial"
+          whileInView="animate"
+          viewport={{ once: true, margin: "-60px" }}
+          variants={stagger}
+        >
+          <SectionHeader icon={GraduationCap} title="Current PhD Students" iconColor="accent" />
+          <div className="grid md:grid-cols-2 gap-5">
             {currentPhD.map((student, index) => (
               <StudentCard key={student.id} student={student} index={index} />
             ))}
           </div>
-        </section>
+        </motion.section>
       )}
 
-      {/* Former PhD Students */}
+      {/* Former PhD */}
       {formerPhD.length > 0 && (
-        <section className="mb-12">
-          <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6 flex items-center gap-3">
-            <Users className="w-6 h-6 text-gray-600 dark:text-gray-400" />
-            Former PhD Students
-          </h2>
-          <div className="grid md:grid-cols-2 gap-6">
+        <motion.section
+          className="mb-12"
+          initial="initial"
+          whileInView="animate"
+          viewport={{ once: true, margin: "-60px" }}
+          variants={stagger}
+        >
+          <SectionHeader icon={Users} title="Former PhD Students" iconColor="muted" />
+          <div className="grid md:grid-cols-2 gap-5">
             {formerPhD.map((student, index) => (
               <StudentCard key={student.id} student={student} index={index} />
             ))}
           </div>
-        </section>
+        </motion.section>
       )}
 
-      {/* Current Masters Students */}
+      {/* Current Masters */}
       {currentMasters.length > 0 && (
-        <section className="mb-12">
-          <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6 flex items-center gap-3">
-            <GraduationCap className="w-6 h-6 text-blue-600 dark:text-blue-400" />
-            Current Masters Students
-          </h2>
-          <div className="grid md:grid-cols-2 gap-6">
+        <motion.section
+          className="mb-12"
+          initial="initial"
+          whileInView="animate"
+          viewport={{ once: true, margin: "-60px" }}
+          variants={stagger}
+        >
+          <SectionHeader icon={GraduationCap} title="Current Masters Students" iconColor="accent" />
+          <div className="grid md:grid-cols-2 gap-5">
             {currentMasters.map((student, index) => (
               <StudentCard key={student.id} student={student} index={index} />
             ))}
           </div>
-        </section>
+        </motion.section>
       )}
 
-      {/* Former Masters Students */}
+      {/* Former Masters */}
       {formerMasters.length > 0 && (
-        <section className="mb-12">
-          <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6 flex items-center gap-3">
-            <Users className="w-6 h-6 text-gray-600 dark:text-gray-400" />
-            Former Masters Students
-          </h2>
-          <div className="grid md:grid-cols-2 gap-6">
+        <motion.section
+          className="mb-12"
+          initial="initial"
+          whileInView="animate"
+          viewport={{ once: true, margin: "-60px" }}
+          variants={stagger}
+        >
+          <SectionHeader icon={Users} title="Former Masters Students" iconColor="muted" />
+          <div className="grid md:grid-cols-2 gap-5">
             {formerMasters.map((student, index) => (
               <StudentCard key={student.id} student={student} index={index} />
             ))}
           </div>
-        </section>
+        </motion.section>
       )}
 
       {students.length === 0 && (
-        <div className="text-center py-20 text-gray-500 dark:text-gray-400">
-          <Users className="w-12 h-12 mx-auto mb-4 opacity-50" />
+        <div className="text-center py-20" style={{ color: 'var(--color-text-muted)' }}>
+          <Users className="w-12 h-12 mx-auto mb-4 opacity-40" />
           <p>No students added yet.</p>
         </div>
       )}
