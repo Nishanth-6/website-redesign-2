@@ -3,7 +3,9 @@ import { Download } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export default function CV() {
-  const cvUrl = `${import.meta.env.BASE_URL}Selvaprabu_Nadarajah_CV.pdf`;
+  const cvDownloadUrl = `${import.meta.env.BASE_URL}Selvaprabu_Nadarajah_CV.pdf`;
+  // Version query prevents stale PDF viewer cache from showing old content/scroll.
+  const embeddedCvUrl = `${cvDownloadUrl}?v=20260219#page=1&view=FitH`;
 
   return (
     <div className="max-w-6xl mx-auto px-6 md:px-10 py-10 md:py-16 h-[calc(100vh-200px)] flex flex-col">
@@ -23,7 +25,7 @@ export default function CV() {
 
         <div className="mt-6">
           <a
-            href={cvUrl}
+            href={cvDownloadUrl}
             download="Selvaprabu_Nadarajah_CV.pdf"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold text-white transition-all duration-200"
             style={{
@@ -52,7 +54,8 @@ export default function CV() {
         }}
       >
         <iframe
-          src={cvUrl}
+          src={embeddedCvUrl}
+          key={embeddedCvUrl}
           className="w-full h-full border-none"
           title="Curriculum Vitae"
         />

@@ -252,12 +252,6 @@ export default function Layout({ children }) {
                   </Link>
                 ))}
               </nav>
-              <Link to="/cms" className="text-xs transition-colors" style={{ color: 'var(--color-border)' }}
-                onMouseEnter={(e) => e.target.style.color = 'var(--color-text-muted)'}
-                onMouseLeave={(e) => e.target.style.color = 'var(--color-border)'}
-              >
-                Admin
-              </Link>
             </div>
           </div>
 

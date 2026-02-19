@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { base44 } from '@/api/base44Client';
+import { contentAPI } from '@/utils/contentLoader';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent } from '@/components/ui/card';
@@ -22,35 +22,35 @@ export default function CMS() {
 
   const { data: contents = [] } = useQuery({
     queryKey: ['contents'],
-    queryFn: () => base44.entities.Content.list()
+    queryFn: () => contentAPI.entities.Content.list()
   });
 
   const { data: publications = [] } = useQuery({
     queryKey: ['publications'],
-    queryFn: () => base44.entities.Publication.list()
+    queryFn: () => contentAPI.entities.Publication.list()
   });
 
   const { data: courses = [] } = useQuery({
     queryKey: ['courses'],
-    queryFn: () => base44.entities.Course.list()
+    queryFn: () => contentAPI.entities.Course.list()
   });
 
   const { data: students = [] } = useQuery({
     queryKey: ['students'],
-    queryFn: () => base44.entities.Student.list()
+    queryFn: () => contentAPI.entities.Student.list()
   });
 
   const { data: researchAreas = [] } = useQuery({
     queryKey: ['researchAreas'],
-    queryFn: () => base44.entities.ResearchArea.list()
+    queryFn: () => contentAPI.entities.ResearchArea.list()
   });
 
   const createMutation = (entityName, queryKey) => useMutation({
     mutationFn: (data) => {
       if (editingItem) {
-        return base44.entities[entityName].update(editingItem.id, data);
+        return contentAPI.entities[entityName].update(editingItem.id, data);
       }
-      return base44.entities[entityName].create(data);
+      return contentAPI.entities[entityName].create(data);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [queryKey] });
@@ -60,7 +60,7 @@ export default function CMS() {
   });
 
   const deleteMutation = (entityName, queryKey) => useMutation({
-    mutationFn: (id) => base44.entities[entityName].delete(id),
+    mutationFn: (id) => contentAPI.entities[entityName].delete(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [queryKey] });
     }

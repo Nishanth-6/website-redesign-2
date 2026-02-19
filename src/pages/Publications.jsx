@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { base44 } from '@/api/base44Client';
+import { contentAPI } from '@/utils/contentLoader';
 import { FileText, Calendar } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SkeletonPublication } from '../components/SkeletonLoader';
@@ -14,7 +14,7 @@ const fadeUp = {
 export default function Publications() {
   const { data: publications = [], isLoading } = useQuery({
     queryKey: ['publications'],
-    queryFn: () => base44.entities.Publication.list()
+    queryFn: () => contentAPI.entities.Publication.list()
   });
 
   const [activeCategory, setActiveCategory] = useState('All Publications');
@@ -116,7 +116,7 @@ export default function Publications() {
               className="group p-5 md:p-6 rounded-xl transition-all duration-300"
               style={{
                 backgroundColor: 'var(--color-surface)',
-                borderLeft: '3px solid var(--color-accent)',
+                border: '1px solid var(--color-border)',
                 boxShadow: 'var(--shadow-sm)'
               }}
               onMouseEnter={(e) => e.currentTarget.style.boxShadow = 'var(--shadow-md)'}
@@ -176,16 +176,15 @@ export default function Publications() {
                     rel="noopener noreferrer"
                     className="shrink-0 flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200"
                     style={{
-                      backgroundColor: 'var(--color-accent-light)',
-                      color: 'var(--color-accent)'
+                      backgroundColor: 'var(--color-bg-alt)',
+                      color: 'var(--color-accent)',
+                      border: '1px solid var(--color-border-subtle)'
                     }}
                     onMouseEnter={(e) => {
-                      e.target.style.backgroundColor = 'var(--color-accent)';
-                      e.target.style.color = 'white';
+                      e.currentTarget.style.backgroundColor = 'var(--color-accent-light)';
                     }}
                     onMouseLeave={(e) => {
-                      e.target.style.backgroundColor = 'var(--color-accent-light)';
-                      e.target.style.color = 'var(--color-accent)';
+                      e.currentTarget.style.backgroundColor = 'var(--color-bg-alt)';
                     }}
                   >
                     <FileText className="w-4 h-4" />

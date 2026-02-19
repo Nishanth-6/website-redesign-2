@@ -1,10 +1,8 @@
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { base44 } from '@/api/base44Client';
+import { contentAPI } from '@/utils/contentLoader';
 import { motion } from 'framer-motion';
-import { ArrowRight, Mail, Award } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { createPageUrl } from '../utils';
+import { Mail } from 'lucide-react';
 
 const fadeUp = {
   initial: { opacity: 0, y: 24 },
@@ -19,17 +17,60 @@ const stagger = {
 export default function Home() {
   const { data: contents = [] } = useQuery({
     queryKey: ['contents'],
-    queryFn: () => base44.entities.Content.list()
+    queryFn: () => contentAPI.entities.Content.list()
   });
 
   const { data: researchAreas = [] } = useQuery({
     queryKey: ['researchAreas'],
-    queryFn: () => base44.entities.ResearchArea.list()
+    queryFn: () => contentAPI.entities.ResearchArea.list()
   });
 
   const getContent = (key) => contents.find(c => c.key === key);
   const profile = getContent('profile');
   const awards = getContent('awards');
+  const fallbackProfileImage = `${import.meta.env.BASE_URL}assets/profile-placeholder.svg`;
+
+  const profileImageFromContent = useMemo(() => {
+    const imageUrl = profile?.image_url?.trim();
+    if (!imageUrl) {
+      return fallbackProfileImage;
+    }
+
+    // Keep absolute URLs as-is, but encode spaces and special characters safely.
+    if (/^(https?:)?\/\//i.test(imageUrl) || imageUrl.startsWith('data:')) {
+      return encodeURI(imageUrl);
+    }
+
+    const basePath = import.meta.env.BASE_URL || '/';
+    return `${basePath}${imageUrl.replace(/^\/+/, '')}`;
+  }, [profile?.image_url, fallbackProfileImage]);
+
+  const [profileImageSrc, setProfileImageSrc] = useState(profileImageFromContent);
+
+  useEffect(() => {
+    setProfileImageSrc(profileImageFromContent);
+  }, [profileImageFromContent]);
+
+  const displayResearchAreas = researchAreas.length > 0 ? researchAreas : [
+    {
+      id: 'default-1',
+      title: 'Self-adapting Approximations',
+      description: 'The solution of large scale Markov decision processes using algorithms that improve accessibility to non-technical domain experts and resource-constrained organizations by automating learning from data, underlying problem structure, and instance difficulty.',
+      image_url: '',
+    },
+    {
+      id: 'default-2',
+      title: 'Energy Real Options',
+      description: 'The operations, valuation, and risk management of commodity and energy conversion assets (e.g., production, storage, transport), including renewable energy.',
+      image_url: '',
+    },
+    {
+      id: 'default-3',
+      title: 'Energy and Computing Nexus',
+      description: 'The exploration of how energy demands intensified by computing growth (e.g., data centers) can be met, and how computing advances (e.g., LLMs) can accelerate the sustainable energy transformation.',
+      image_url: '',
+    },
+  ];
 
   return (
     <div className="max-w-6xl mx-auto px-6 md:px-10 py-10 md:py-16 space-y-20">
@@ -61,26 +102,8 @@ export default function Home() {
                 I am an Associate Professor (with tenure) of Information and Decision Sciences and Bielinski Family Endowed Scholar at the College of Business Administration, University of Illinois at Chicago.
               </p>
               <p>
-                I also serve as the Decision Intelligence R&D Lead at the Discovery Partners Institute (Innovation hub of the University of Illinois System), and work with Argonne National Laboratory.
+                I also work with Argonne National Laboratory and previously served as the Decision Intelligence R&amp;D Lead at the Discovery Partners Institute (Innovation hub of the University of Illinois System).
               </p>
-            </div>
-
-            <div className="space-y-3">
-              <p className="text-sm font-semibold uppercase tracking-wider"
-                style={{ color: 'var(--color-text)' }}>
-                Research Areas
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {['Self-adapting Approximations', 'Energy Real Options', 'Energy & Computing Nexus'].map((area) => (
-                  <span key={area} className="px-3 py-1.5 text-sm font-medium rounded-full"
-                    style={{
-                      backgroundColor: 'var(--color-accent-light)',
-                      color: 'var(--color-accent)'
-                    }}>
-                    {area}
-                  </span>
-                ))}
-              </div>
             </div>
 
             <div className="pt-2">
@@ -104,77 +127,72 @@ export default function Home() {
             variants={fadeUp}
             className="w-full md:w-[280px] lg:w-[300px] shrink-0 flex justify-center md:justify-end"
           >
-            {profile?.image_url && (
-              <div className="relative">
-                <div className="absolute -inset-3 rounded-2xl opacity-20 blur-xl"
-                  style={{ backgroundColor: 'var(--color-accent)' }} />
-                <img
-                  src={profile.image_url}
-                  alt="Selvaprabu Nadarajah"
-                  className="relative w-full max-w-[280px] h-auto rounded-2xl object-cover aspect-[3/4]"
-                  style={{ boxShadow: 'var(--shadow-xl)' }}
-                />
-              </div>
-            )}
+            <div className="relative">
+              <div className="absolute -inset-3 rounded-2xl opacity-15 blur-xl"
+                style={{ backgroundColor: 'var(--color-accent)' }} />
+              <img
+                src={profileImageSrc}
+                alt={profile?.title || 'Selvaprabu Nadarajah'}
+                className="relative w-full max-w-[280px] h-auto rounded-2xl object-cover aspect-[3/4]"
+                style={{ boxShadow: 'var(--shadow-xl)' }}
+                loading="eager"
+                onError={() => setProfileImageSrc(fallbackProfileImage)}
+              />
+            </div>
           </motion.div>
         </div>
       </motion.section>
 
-      {/* ── RESEARCH AREAS ── */}
-      {researchAreas.length > 0 && (
-        <motion.section
-          initial="initial"
-          whileInView="animate"
-          viewport={{ once: true, margin: "-60px" }}
-          variants={stagger}
-        >
-          <motion.div variants={fadeUp} className="mb-10">
-            <h2 className="heading-serif heading-underline text-2xl md:text-3xl" style={{ color: 'var(--color-text)' }}>
-              Research Areas
-            </h2>
-          </motion.div>
-
-          <div className="grid md:grid-cols-3 gap-6">
-            {researchAreas.map((area, index) => (
-              <motion.div
-                key={area.id}
-                variants={fadeUp}
-                className="group"
-              >
-                <Link
-                  to={createPageUrl('Research')}
-                  className="card-elevated block h-full overflow-hidden"
-                >
-                  {area.image_url && (
-                    <div className="h-48 overflow-hidden" style={{ backgroundColor: 'var(--color-bg-alt)' }}>
-                      <img
-                        src={area.image_url}
-                        alt={area.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                      />
-                    </div>
-                  )}
-                  <div className="p-5 flex flex-col flex-1">
-                    <h3 className="text-lg font-semibold mb-2"
-                      style={{ fontFamily: 'var(--font-serif)', color: 'var(--color-text)' }}>
-                      {area.title}
-                    </h3>
-                    <p className="text-sm leading-relaxed mb-4 flex-1"
-                      style={{ color: 'var(--color-text-secondary)' }}>
-                      {area.description}
-                    </p>
-
-                    <span className="inline-flex items-center gap-1.5 text-sm font-medium group-hover:gap-2.5 transition-all"
-                      style={{ color: 'var(--color-accent)' }}>
-                      Learn more <ArrowRight className="w-3.5 h-3.5" />
-                    </span>
-                  </div>
-                </Link>
-              </motion.div>
-            ))}
-          </div>
-        </motion.section>
-      )}
+      <motion.section
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-60px' }}
+        transition={{ duration: 0.5 }}
+      >
+        <h2 className="heading-serif heading-underline text-2xl md:text-3xl mb-6"
+          style={{ color: 'var(--color-text)' }}>
+          Research Areas
+        </h2>
+        <div className="grid md:grid-cols-3 gap-6">
+          {displayResearchAreas.map((area) => (
+            <div
+              key={area.id}
+              className="rounded-xl overflow-hidden h-full"
+              style={{
+                border: '1px solid var(--color-border)',
+                backgroundColor: 'var(--color-surface)',
+                boxShadow: 'var(--shadow-sm)',
+              }}
+            >
+              <div className="h-44 w-full overflow-hidden" style={{ backgroundColor: 'var(--color-bg-alt)' }}>
+                {area.image_url ? (
+                  <img
+                    src={area.image_url}
+                    alt={area.title}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div
+                    className="w-full h-full"
+                    style={{
+                      background: 'linear-gradient(120deg, #2f4f6f 0%, #425f7b 45%, #1f2d3d 100%)',
+                      opacity: 0.9,
+                    }}
+                  />
+                )}
+              </div>
+              <div className="p-5 space-y-3">
+                <h3 className="text-2xl leading-tight" style={{ fontFamily: 'var(--font-serif)', color: 'var(--color-text)' }}>
+                  {area.title}
+                </h3>
+                <p className="text-base leading-relaxed" style={{ color: 'var(--color-text-secondary)' }}>
+                  {area.description}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </motion.section>
 
       {/* ── AWARDS ── */}
       {awards && (
@@ -184,27 +202,10 @@ export default function Home() {
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.5 }}
         >
-          <div className="flex items-start gap-4 md:gap-6 p-6 md:p-8 rounded-xl"
-            style={{
-              backgroundColor: 'var(--color-surface)',
-              borderLeft: '3px solid var(--color-accent)',
-              boxShadow: 'var(--shadow-sm)'
-            }}>
-            <div className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0"
-              style={{ backgroundColor: 'var(--color-accent-light)' }}>
-              <Award className="w-5 h-5" style={{ color: 'var(--color-accent)' }} />
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold mb-3"
-                style={{ fontFamily: 'var(--font-serif)', color: 'var(--color-text)' }}>
-                Awards &amp; Honors
-              </h3>
-              <div className="text-base leading-relaxed"
-                style={{ color: 'var(--color-text-secondary)' }}>
-                <p>{awards.body}</p>
-              </div>
-            </div>
-          </div>
+          <p className="text-base md:text-lg leading-relaxed"
+            style={{ color: 'var(--color-text-secondary)' }}>
+            {awards.body}
+          </p>
         </motion.section>
       )}
 

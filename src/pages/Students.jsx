@@ -1,6 +1,6 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { base44 } from '@/api/base44Client';
+import { contentAPI } from '@/utils/contentLoader';
 import { motion } from 'framer-motion';
 import { Users, ExternalLink, GraduationCap } from 'lucide-react';
 
@@ -17,12 +17,12 @@ const stagger = {
 export default function Students() {
   const { data: students = [] } = useQuery({
     queryKey: ['students'],
-    queryFn: () => base44.entities.Student.list()
+    queryFn: () => contentAPI.entities.Student.list()
   });
 
   const { data: contents = [] } = useQuery({
     queryKey: ['contents'],
-    queryFn: () => base44.entities.Content.list()
+    queryFn: () => contentAPI.entities.Content.list()
   });
 
   const noteToStudents = contents.find(c => c.key === 'note_to_students');

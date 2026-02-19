@@ -9,20 +9,20 @@
   --font-serif: 'Playfair Display', 'Georgia', 'Times New Roman', serif;
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
 
-  --color-bg: #FAFAF8;
-  --color-bg-alt: #F3F2EF;
+  --color-bg: #f7f6f3;
+  --color-bg-alt: #efede8;
   --color-surface: #FFFFFF;
-  --color-surface-hover: #F7F7F5;
-  --color-border: #E8E6E1;
-  --color-border-subtle: #F0EEEA;
+  --color-surface-hover: #f4f2ee;
+  --color-border: #e1ddd5;
+  --color-border-subtle: #ece9e2;
 
-  --color-text: #1a1a2e;
-  --color-text-secondary: #555566;
-  --color-text-muted: #888899;
+  --color-text: #1f2d3d;
+  --color-text-secondary: #495b6c;
+  --color-text-muted: #728292;
 
-  --color-accent: #1d4ed8;
-  --color-accent-light: #EEF2FF;
-  --color-accent-hover: #1e40af;
+  --color-accent: #2f4f6f;
+  --color-accent-light: #e6edf4;
+  --color-accent-hover: #223a53;
 
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
   --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
@@ -36,20 +36,20 @@
 }
 
 .dark {
-  --color-bg: #0f172a;
-  --color-bg-alt: #1e293b;
-  --color-surface: #1e293b;
-  --color-surface-hover: #263548;
-  --color-border: #334155;
-  --color-border-subtle: #1e293b;
+  --color-bg: #0f1720;
+  --color-bg-alt: #1a2531;
+  --color-surface: #1d2936;
+  --color-surface-hover: #243241;
+  --color-border: #324255;
+  --color-border-subtle: #263444;
 
-  --color-text: #f1f5f9;
-  --color-text-secondary: #94a3b8;
-  --color-text-muted: #64748b;
+  --color-text: #e7edf3;
+  --color-text-secondary: #b5c0cc;
+  --color-text-muted: #8999a9;
 
-  --color-accent: #60a5fa;
-  --color-accent-light: rgba(96, 165, 250, 0.1);
-  --color-accent-hover: #93c5fd;
+  --color-accent: #89a9c7;
+  --color-accent-light: rgba(137, 169, 199, 0.16);
+  --color-accent-hover: #a8c0d8;
 }
 
 /* ─── Base Styles ─── */
@@ -160,7 +160,7 @@ body,
 .card-elevated:hover {
   transform: translateY(-3px);
   box-shadow: var(--shadow-lg);
-  border-color: var(--color-accent);
+  border-color: var(--color-border);
 }
 
 .card-hover {
@@ -190,7 +190,7 @@ body,
   text-decoration: underline;
   text-decoration-color: var(--color-accent);
   text-underline-offset: 8px;
-  text-decoration-thickness: 3px;
+  text-decoration-thickness: 2px;
 }
 
 /* ─── Hide scrollbar for horizontal scroll ─── */
@@ -218,15 +218,15 @@ body,
 
 /* ─── Research Diagram Frame ─── */
 .research-diagram-frame {
-  background: linear-gradient(135deg, rgba(29, 78, 216, 0.03) 0%, rgba(255, 255, 255, 0) 50%, rgba(45, 138, 86, 0.03) 100%);
-  border: 1px solid var(--color-border-subtle);
-  border-radius: var(--radius-xl);
-  padding: 2rem 2rem 1.5rem;
-  box-shadow: var(--shadow-sm);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-lg);
+  padding: 0;
+  box-shadow: none;
 }
 
 .dark .research-diagram-frame {
-  background: linear-gradient(135deg, rgba(96, 165, 250, 0.04) 0%, rgba(0, 0, 0, 0) 50%, rgba(45, 138, 86, 0.04) 100%);
+  background: transparent;
 }
 
 /* ─── Dark mode diagram color overrides ─── */

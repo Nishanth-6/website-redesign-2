@@ -1,0 +1,51 @@
+[
+  {
+    "id": "content-001",
+    "key": "profile",
+    "title": "Selvaprabu (Selva) Nadarajah",
+    "body": "",
+    "metadata": {
+      "email": "selvan@uic.edu",
+      "position": "Associate Professor (with tenure)",
+      "department": "Information and Decision Sciences",
+      "institution": "University of Illinois at Chicago, College of Business Administration",
+      "additional_roles": "Bielinski Family Endowed Scholar; Argonne National Laboratory; previously served as Decision Intelligence R&D Lead at Discovery Partners Institute"
+    },
+    "image_url": "assets/Selva_Informal.jpg"
+  },
+  {
+    "id": "content-002",
+    "key": "awards",
+    "title": "Awards & Honors",
+    "body": "I have been fortunate to be recognized as a Global Scholar for international research, scholarship, and creative activity by the University of Illinois Chicago in 2024, and receive the 2024 INFORMS Harvey J. Greenberg Research Award, the 2021 Commodity and Energy Markets Association (CEMA) Best Paper Award, the 2020 INFORMS ENRE Young Researcher Prize, the Best Overall Paper at the 2020 NeurIPS Workshop on Tackling Climate Change with Machine Learning, the 2014 William L. Cooper Dissertation Award, and the 2013 Egon Balas Best Paper Award.",
+    "metadata": {}
+  },
+  {
+    "id": "content-003",
+    "key": "bio",
+    "title": "Background",
+    "body": "Before joining UIC, I did my PhD and MS in Operations Research at the Tepper School of Business, Carnegie Mellon University. My journey to North America started at the University of Waterloo, where I obtained an MASc in Operations Research and learnt the importance of asking 'Why Not?'. I was born in incredible India and grew up in the beautiful island of Sri Lanka (a.k.a. the pearl of the Indian ocean) before heading back to Chennai for my undergraduate studies at the Indian Institute of Technology Madras. I have enjoyed consulting with companies in the retail, high technology, and energy industries along the way.",
+    "metadata": {
+      "education": [
+        {"degree": "PhD", "field": "Operations Research", "institution": "Tepper School of Business, Carnegie Mellon University"},
+        {"degree": "MS", "field": "Operations Research", "institution": "Tepper School of Business, Carnegie Mellon University"},
+        {"degree": "MASc", "field": "Operations Research", "institution": "University of Waterloo"},
+        {"degree": "BTech", "institution": "Indian Institute of Technology Madras"}
+      ]
+    }
+  },
+  {
+    "id": "content-004",
+    "key": "note_to_students",
+    "title": "Note to Prospective Students",
+    "body": "I enjoy working with graduate students. PhD students that I collaborate with are strong in algorithms and programming or have a strong mathematical background, ideally both. They are passionate about solving challenging business problems using reinforcement learning, optimization, and high dimensional statistics. Masters students that I work with are computationally strong and self-motivated to learn new technical material and methods. Please see below for past students, their profiles, and nature of work. Before emailing me, I recommend that you do the following:\n\n• Browse through my research publications and working papers to identify any past projects or ongoing work that is of interest to you. Read such papers more carefully and include specifics of what you find interesting in your email.\n\n• I welcome new ideas outside my ongoing or past work. If you are contacting me with a new idea for collaboration, kindly indicate why my involvement would be useful (it may not be!).\n\n• If applicable, please consult with your PhD advisor and make sure they are onboard.",
+    "metadata": {}
+  },
+  {
+    "id": "content-005",
+    "key": "research_overview",
+    "title": "Research Overview",
+    "body": "The convergence of artificial intelligence, energy systems, and sustainability presents unprecedented opportunities and challenges for society. My research addresses a fundamental question: How can organizations make better decisions about energy investments and operations in an uncertain and resource-constrained world? At the core of my work is the development of computational methods that automate complex decision-making processes, making sophisticated optimization tools accessible to practitioners while advancing the theoretical foundations of the field.\n\nMy research program operates at the intersection of large-scale computing and energy. I develop self-adapting approximations of Markov Decision Processes (MDPs), which are the foundational models underpinning reinforcement learning. These methods automate critical steps in model selection and solution guidance. They have been applied to manage production and storage energy real options, and to tackle emerging procurement and generation/transmission capacity problems.",
+    "metadata": {}
+  }
+]

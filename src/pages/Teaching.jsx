@@ -1,6 +1,6 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { base44 } from '@/api/base44Client';
+import { contentAPI } from '@/utils/contentLoader';
 import { motion } from 'framer-motion';
 import { GraduationCap, Calendar, Building } from 'lucide-react';
 import { SkeletonCourse } from '../components/SkeletonLoader';
@@ -18,7 +18,7 @@ const stagger = {
 export default function Teaching() {
   const { data: courses = [], isLoading } = useQuery({
     queryKey: ['courses'],
-    queryFn: () => base44.entities.Course.list()
+    queryFn: () => contentAPI.entities.Course.list()
   });
 
   if (isLoading) {
