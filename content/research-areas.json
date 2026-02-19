@@ -1,0 +1,20 @@
+[
+  {
+    "id": "research-001",
+    "title": "Self-adapting Approximations",
+    "description": "Developing large-scale Markov decision process solutions with automated learning capabilities to improve decision-making under uncertainty.",
+    "image_url": "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "research-002",
+    "title": "Energy Real Options",
+    "description": "Operations and risk management of commodity and energy assets including renewable energy systems, focusing on optimal decision-making under market uncertainty.",
+    "image_url": "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "research-003",
+    "title": "Energy & Computing Nexus",
+    "description": "Addressing computing-driven energy demands and leveraging large language models for sustainable transformation in the energy sector.",
+    "image_url": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&q=80&w=800"
+  }
+]

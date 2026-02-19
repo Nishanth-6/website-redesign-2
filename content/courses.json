@@ -1,0 +1,58 @@
+[
+  {
+    "id": "course-001",
+    "code": "IDS 435",
+    "name": "Analytics for Optimization",
+    "institution": "University of Illinois at Chicago",
+    "level": "BS in Data Science",
+    "semesters": "Spring 2022/23"
+  },
+  {
+    "id": "course-002",
+    "code": "IDS 594",
+    "name": "Introduction to Modern Optimization",
+    "institution": "University of Illinois at Chicago",
+    "level": "PhD",
+    "semesters": "Fall 2019"
+  },
+  {
+    "id": "course-003",
+    "code": "IDS 532",
+    "name": "Introduction to Operations Management",
+    "institution": "University of Illinois at Chicago, Liautaud Graduate School of Business",
+    "level": "MBA/CMBA",
+    "semesters": "Fall 2014/16/20/21, Spring 2015/18/19/20/21/22, CMBA Fall 2016/Spring 2019"
+  },
+  {
+    "id": "course-004",
+    "code": "IDS 552",
+    "name": "Supply Chain Management",
+    "institution": "University of Illinois at Chicago, Liautaud Graduate School of Business",
+    "level": "Graduate Elective",
+    "semesters": "Spring 2015/16/17/18, Fall 2021"
+  },
+  {
+    "id": "course-005",
+    "code": "IDS 594",
+    "name": "Dynamic Programming",
+    "institution": "University of Illinois at Chicago, Liautaud Graduate School of Business",
+    "level": "PhD Elective",
+    "semesters": "Fall 2016"
+  },
+  {
+    "id": "course-006",
+    "code": "MSC 21366",
+    "name": "Topics in Applied Mathematics: Combinatorial Optimization",
+    "institution": "Carnegie Mellon University, Mathematical Sciences",
+    "level": "Undergraduate Elective",
+    "semesters": "Fall 2012"
+  },
+  {
+    "id": "course-007",
+    "code": "MSci 331",
+    "name": "Introduction to Optimization",
+    "institution": "University of Waterloo, Management Sciences",
+    "level": "Undergraduate Core",
+    "semesters": "Spring 2008"
+  }
+]

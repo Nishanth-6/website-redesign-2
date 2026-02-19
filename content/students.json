@@ -1,0 +1,104 @@
+[
+  {
+    "id": "student-001",
+    "name": "Satender Gunwal",
+    "degree": "phd",
+    "program": "Information and Decision Sciences",
+    "institution": "University of Illinois at Chicago",
+    "status": "current",
+    "start_year": "2023",
+    "background": "BS and MS in Mathematical Sciences from IISER",
+    "research_interests": "Energy, reinforcement learning, multi-objective optimization"
+  },
+  {
+    "id": "student-002",
+    "name": "Mahtab Raeisdanaei",
+    "degree": "phd",
+    "program": "Information and Decision Sciences",
+    "institution": "University of Illinois at Chicago",
+    "status": "current",
+    "start_year": "2024",
+    "background": "BS in Industrial Engineering from Amirkabir University",
+    "research_interests": "Reinforcement learning, large language models, hierarchical planning"
+  },
+  {
+    "id": "student-003",
+    "name": "Alessio Trivella",
+    "degree": "phd",
+    "program": "Management Engineering",
+    "institution": "Denmark Technical University",
+    "status": "former",
+    "graduation_year": "Fall 2018",
+    "current_position": "Assistant Professor at University of Twente"
+  },
+  {
+    "id": "student-004",
+    "name": "Danial Mohseni Taheri",
+    "degree": "phd",
+    "program": "Information and Decision Sciences",
+    "institution": "University of Illinois at Chicago",
+    "status": "former",
+    "graduation_year": "Spring 2021",
+    "current_position": "Senior Machine Learning Scientist at JP Morgan"
+  },
+  {
+    "id": "student-005",
+    "name": "Andreas Kleiven",
+    "degree": "phd",
+    "program": "Industrial Economics and Technology Management",
+    "institution": "NTNU",
+    "status": "former",
+    "graduation_year": "Spring 2022",
+    "current_position": "Power Associate at Citadel"
+  },
+  {
+    "id": "student-006",
+    "name": "Bo Yang",
+    "degree": "phd",
+    "program": "Operations Management",
+    "institution": "Carnegie Mellon University",
+    "status": "former",
+    "graduation_year": "Spring 2022",
+    "current_position": "Assistant Professor at Hong Kong University of Science and Technology"
+  },
+  {
+    "id": "student-007",
+    "name": "Parshan Pakiman",
+    "degree": "phd",
+    "program": "Information and Decision Sciences",
+    "institution": "University of Illinois at Chicago",
+    "status": "former",
+    "graduation_year": "Fall 2023",
+    "current_position": "Post-doctoral fellow at University of Chicago's Booth School of Business"
+  },
+  {
+    "id": "student-008",
+    "name": "Abhilash Chenreddy",
+    "degree": "masters",
+    "program": "Information and Decision Sciences",
+    "institution": "University of Illinois at Chicago",
+    "status": "former",
+    "graduation_year": "Fall 2018",
+    "current_position": "PhD student at HEC Montreal/MILA"
+  },
+  {
+    "id": "student-009",
+    "name": "Akshay Balachandran",
+    "degree": "masters",
+    "program": "Information and Decision Sciences",
+    "institution": "University of Illinois at Chicago",
+    "status": "former",
+    "graduation_year": "Spring 2017",
+    "current_position": "Vice President at Alix Partners"
+  },
+  {
+    "id": "student-010",
+    "name": "Karthikeyan Venugopal",
+    "degree": "masters",
+    "program": "Information and Decision Sciences",
+    "institution": "University of Illinois at Chicago",
+    "status": "former",
+    "graduation_year": "Fall 2015",
+    "current_position": "Manager of Advanced Analytics at Walmart"
+  }
+]

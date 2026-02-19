@@ -1,0 +1,177 @@
+backend:
+  name: github
+  repo: selva-nadarajah/selva-nadarajah.github.io
+  branch: main
+
+media_folder: "public/images"
+public_folder: "/images"
+
+# Use local backend for development
+local_backend: true
+
+collections:
+  - name: "publications"
+    label: "Publications"
+    label_singular: "Publication"
+    folder: "public/content"
+    format: "json"
+    create: false
+    delete: false
+    editor:
+      preview: false
+    files:
+      - label: "All Publications"
+        name: "publications"
+        file: "public/content/publications.json"
+        fields:
+          - label: "Publications List"
+            name: "publications"
+            widget: "hidden"
+            default: []
+          - label: "All Publications"
+            name: "items"
+            widget: "list"
+            label_singular: "Publication"
+            fields:
+              - {label: "ID", name: "id", widget: "string", hint: "Unique ID (e.g., pub-001)"}
+              - {label: "Title", name: "title", widget: "string"}
+              - {label: "Authors", name: "authors", widget: "string"}
+              - {label: "Year", name: "year", widget: "number", value_type: "int", min: 1900, max: 2100}
+              - {label: "Category", name: "category", widget: "select", options: ["journal", "working_paper", "conference"]}
+              - {label: "Type", name: "type", widget: "select", options: ["journal", "working_paper", "conference", "conference_proceeding"]}
+              - {label: "Venue", name: "venue", widget: "string"}
+              - {label: "Abstract", name: "abstract", widget: "text", required: false}
+              - {label: "Link", name: "link", widget: "string", required: false}
+
+  - name: "courses"
+    label: "Courses"
+    label_singular: "Course"
+    folder: "public/content"
+    format: "json"
+    create: false
+    delete: false
+    editor:
+      preview: false
+    files:
+      - label: "All Courses"
+        name: "courses"
+        file: "public/content/courses.json"
+        fields:
+          - label: "Courses List"
+            name: "courses"
+            widget: "hidden"
+            default: []
+          - label: "All Courses"
+            name: "items"
+            widget: "list"
+            label_singular: "Course"
+            fields:
+              - {label: "ID", name: "id", widget: "string", hint: "Unique ID (e.g., course-001)"}
+              - {label: "Course Code", name: "code", widget: "string"}
+              - {label: "Course Name", name: "name", widget: "string"}
+              - {label: "Institution", name: "institution", widget: "string"}
+              - {label: "Level", name: "level", widget: "string", hint: "e.g., PhD, MBA, Undergraduate"}
+              - {label: "Semesters Taught", name: "semesters", widget: "string"}
+
+  - name: "students"
+    label: "Students"
+    label_singular: "Student"
+    folder: "public/content"
+    format: "json"
+    create: false
+    delete: false
+    editor:
+      preview: false
+    files:
+      - label: "All Students"
+        name: "students"
+        file: "public/content/students.json"
+        fields:
+          - label: "Students List"
+            name: "students"
+            widget: "hidden"
+            default: []
+          - label: "All Students"
+            name: "items"
+            widget: "list"
+            label_singular: "Student"
+            fields:
+              - {label: "ID", name: "id", widget: "string", hint: "Unique ID (e.g., student-001)"}
+              - {label: "Name", name: "name", widget: "string"}
+              - {label: "Degree", name: "degree", widget: "select", options: ["phd", "masters"]}
+              - {label: "Program", name: "program", widget: "string"}
+              - {label: "Institution", name: "institution", widget: "string"}
+              - {label: "Status", name: "status", widget: "select", options: ["current", "former"]}
+              - {label: "Start Year", name: "start_year", widget: "string", required: false}
+              - {label: "Background", name: "background", widget: "text", required: false}
+              - {label: "Research Interests", name: "research_interests", widget: "text", required: false}
+              - {label: "Graduation Year", name: "graduation_year", widget: "string", required: false}
+              - {label: "Current Position", name: "current_position", widget: "string", required: false}
+              - {label: "Website URL", name: "website_url", widget: "string", required: false}
+
+  - name: "research_areas"
+    label: "Research Areas"
+    label_singular: "Research Area"
+    folder: "public/content"
+    format: "json"
+    create: false
+    delete: false
+    editor:
+      preview: false
+    files:
+      - label: "Research Areas"
+        name: "research-areas"
+        file: "public/content/research-areas.json"
+        fields:
+          - label: "Research Areas List"
+            name: "research_areas"
+            widget: "hidden"
+            default: []
+          - label: "All Research Areas"
+            name: "items"
+            widget: "list"
+            label_singular: "Research Area"
+            fields:
+              - {label: "ID", name: "id", widget: "string", hint: "Unique ID (e.g., research-001)"}
+              - {label: "Title", name: "title", widget: "string"}
+              - {label: "Description", name: "description", widget: "text"}
+              - {label: "Image URL", name: "image_url", widget: "string", required: false}
+
+  - name: "site_content"
+    label: "Site Content"
+    label_singular: "Content Item"
+    folder: "public/content"
+    format: "json"
+    create: false
+    delete: false
+    editor:
+      preview: false
+    files:
+      - label: "Site Content"
+        name: "site-content"
+        file: "public/content/site-content.json"
+        fields:
+          - label: "Content Items List"
+            name: "content_items"
+            widget: "hidden"
+            default: []
+          - label: "All Content"
+            name: "items"
+            widget: "list"
+            label_singular: "Content Item"
+            fields:
+              - {label: "ID", name: "id", widget: "string"}
+              - {label: "Key", name: "key", widget: "string", hint: "Unique identifier (e.g., profile, awards, bio)"}
+              - {label: "Title", name: "title", widget: "string"}
+              - {label: "Body", name: "body", widget: "text", required: false}
+              - label: "Metadata"
+                name: "metadata"
+                widget: "object"
+                required: false
+                fields:
+                  - {label: "Email", name: "email", widget: "string", required: false}
+                  - {label: "Position", name: "position", widget: "string", required: false}
+                  - {label: "Department", name: "department", widget: "string", required: false}
+                  - {label: "Institution", name: "institution", widget: "string", required: false}
+                  - {label: "Additional Roles", name: "additional_roles", widget: "string", required: false}
+              - {label: "Image URL", name: "image_url", widget: "string", required: false}
